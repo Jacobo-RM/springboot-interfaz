@@ -40,7 +40,7 @@
   
   const fetchPeliculas = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/cine/peliculas');
+      const response = await axios.get('/api/cine/peliculas');
       peliculas.value = response.data;
     } catch (err) {
       console.error('Error fetching peliculas:', err);
