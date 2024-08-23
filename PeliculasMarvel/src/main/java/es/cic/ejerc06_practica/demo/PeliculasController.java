@@ -1,4 +1,5 @@
 package es.cic.ejerc06_practica.demo;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/cine")
 @RestController
 public class PeliculasController {
-    
+
     @Autowired
     private PeliculasService peliculasService;
 
@@ -35,7 +34,7 @@ public class PeliculasController {
     }
 
     @GetMapping("/pelicula/{id}")
-    public Pelicula getPeliculaPorId(@PathVariable ("id") int id) throws Exception{
+    public Pelicula getPeliculaPorId(@PathVariable("id") int id) throws Exception {
         return peliculasService.getPeliculaById(id);
     }
 
@@ -48,7 +47,7 @@ public class PeliculasController {
     public List<Pelicula> getPeliculasByActores(@PathVariable("nombreActor") String nombreActor) throws Exception {
         Actor actor = new Actor();
         actor.setNombre(nombreActor);
-        
+
         return peliculasService.getPeliculaByActores(actor);
     }
 
@@ -58,25 +57,25 @@ public class PeliculasController {
     }
 
     @GetMapping("/rating/{rating}")
-    public List<Pelicula> getPeliculasByRating(@PathVariable("rating") double rating) throws Exception{
+    public List<Pelicula> getPeliculasByRating(@PathVariable("rating") double rating) throws Exception {
         return peliculasService.getPeliculasByRating(rating);
     }
 
     @PostMapping("/anadirPelicula")
     @ResponseStatus(HttpStatus.CREATED)
-    public Pelicula anadirPelicula(@RequestBody Pelicula pelicula) throws Exception{
+    public Pelicula anadirPelicula(@RequestBody Pelicula pelicula) throws Exception {
         return peliculasService.addPelicula(pelicula);
     }
 
     @PutMapping("/actualizarPelicula/{id}/{nombre}")
-    public Pelicula actualizarPelicula(@PathVariable("id") int id, @PathVariable("nombre") String nombre) throws Exception{
+    public Pelicula actualizarPelicula(@PathVariable("id") int id, @PathVariable("nombre") String nombre)
+            throws Exception {
         return peliculasService.updatePelicula(id, nombre);
-    
+
     }
 
     @DeleteMapping("/borrarPelicula/{id}")
-    public boolean borrarPelicula(@PathVariable ("id") int id) throws Exception{
+    public boolean borrarPelicula(@PathVariable("id") int id) throws Exception {
         return this.peliculasService.deletePelicula(id);
     }
 }
-
