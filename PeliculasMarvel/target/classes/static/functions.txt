@@ -1,0 +1,154 @@
+function getPeliculasOrdenadas() {
+            fetch(`${baseUrl}/peliculasOrdenadas`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('peliculasOrdenadas').innerHTML = formatPeliculas(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function getPeliculaPorId() {
+            const id = document.getElementById('peliculaId').value;
+            fetch(`${baseUrl}/pelicula/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const result = data ? `<div><strong>ID:</strong> ${data.id}<br><strong>Nombre:</strong> ${data.nombre}</div>` : 'Película no encontrada';
+                    document.getElementById('pelicula').innerHTML = result;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function anadirPelicula() {
+            const nombre = document.getElementById('nombrePelicula').value;
+            fetch(`${baseUrl}/anadirPelicula/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre: nombre })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('nuevaPelicula').innerHTML = `<div><strong>ID:</strong> ${data.id}<br><strong>Nombre:</strong> ${data.nombre}</div>`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function actualizarPelicula() {
+            const id = document.getElementById('actualizarId').value;
+            const nombre = document.getElementById('actualizarNombre').value;
+            fetch(`${baseUrl}/actualizarPelicula/${id}/${nombre}`, {
+                method: 'PUT'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const result = data ? `<div><strong>ID:</strong> ${data.id}<br><strong>Nombre:</strong> ${data.nombre}</div>` : 'No se pudo actualizar la película';
+                document.getElementById('peliculaActualizada').innerHTML = result;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function borrarPelicula() {
+            const id = document.getElementById('borrarId').value;
+            fetch(`${baseUrl}/borrarPelicula/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('peliculaBorrada').innerHTML = data ? 'Película borrada' : 'No se pudo borrar la película';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+
+
+                <!-- <div class="section">
+            <h2>Obtener películas ordenadas</h2>
+            <button onclick="getPeliculasOrdenadas()">Obtener películas ordenadas</button>
+            <div id="peliculasOrdenadas" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Obtener película por ID</h2>
+            <input type="number" id="peliculaId" placeholder="ID de la película">
+            <button onclick="getPeliculaPorId()">Obtener película por ID</button>
+            <div id="pelicula" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Añadir película</h2>
+            <input type="text" id="nombrePelicula" placeholder="Nombre de la película">
+            <button onclick="anadirPelicula()">Añadir película</button>
+            <div id="nuevaPelicula" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Actualizar película</h2>
+            <input type="number" id="actualizarId" placeholder="ID de la película">
+            <input type="text" id="actualizarNombre" placeholder="Nuevo nombre de la película">
+            <button onclick="actualizarPelicula()">Actualizar película</button>
+            <div id="peliculaActualizada" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Borrar película</h2>
+            <input type="number" id="borrarId" placeholder="ID de la película">
+            <button onclick="borrarPelicula()">Borrar película</button>
+            <div id="peliculaBorrada" class="result"></div>
+        </div> -->
+
+
+
+
+
+
+
+
+
+
+
+CURL PARA AÑADIR PELICULA
+
+curl -X POST http://localhost:8080/api/cine/anadirPelicula \
+-H "Content-Type: application/json" \
+-d '{
+    "nombre": "Nueva Película",
+    "director": {
+        "id": 1,
+        "nombre": "Director Ejemplo",
+        "nacionalidad": "Española",
+        "fechaNacimiento": "1970-01-01"
+    },
+    "actores": [
+        {
+            "id": 1,
+            "nombre": "Actor Ejemplo 1",
+            "edad": 35,
+            "activo": true
+        },
+        {
+            "id": 2,
+            "nombre": "Actor Ejemplo 2",
+            "edad": 40,
+            "activo": true
+        }
+    ],
+    "fechaEstreno": "2024-01-01",
+    "rating": 4.5
+}'
+
+
+CURL PARA ACTUALIZAR NOMBRE DE PELICULA
+curl -X PUT "http://localhost:8080/api/actualizarPelicula/1/NuevoNombre"
+
+
+
+
+
+
+
+
+
+
+        
+
